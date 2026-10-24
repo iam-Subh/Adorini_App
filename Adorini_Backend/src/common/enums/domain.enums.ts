@@ -61,6 +61,11 @@ export enum PrintTechnique {
   AJRAK = 'AJRAK',
   BATIK = 'BATIK',
   APLIK = 'APLIK',
+  // Added when FANCY was carrying more than half the catalogue: bandhani and
+  // ikat are distinct crafts a shopper browses by, not a residual bucket.
+  BANDHANI = 'BANDHANI',
+  IKAT = 'IKAT',
+  PATCHWORK = 'PATCHWORK',
   FANCY = 'FANCY',
 }
 

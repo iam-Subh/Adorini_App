@@ -45,12 +45,17 @@ export class Product extends BaseEntity {
   @Column({ type: 'uuid' })
   categoryId: string;
 
-  @ManyToOne('Brand', 'products', { onDelete: 'RESTRICT', nullable: false })
+  /**
+   * Supplier, kept for internal records only — the storefront never shows it.
+   * Nullable since `DropBrandFromShop`: Adorini presents garments by what they
+   * are, not who supplied them.
+   */
+  @ManyToOne('Brand', 'products', { onDelete: 'RESTRICT', nullable: true })
   @JoinColumn()
-  brand: Brand;
+  brand: Brand | null;
 
-  @Column({ type: 'uuid' })
-  brandId: string;
+  @Column({ type: 'uuid', nullable: true })
+  brandId: string | null;
 
   /**
    * Listed price in paise. Integer, never float — ₹1,299.50 is 129950, and no
@@ -105,6 +110,17 @@ export class Product extends BaseEntity {
    */
   @Column({ type: 'boolean', default: false })
   isFreeSize: boolean;
+
+  /**
+   * How many garments come in the box: 1, 2 or 3.
+   *
+   * Null for bottom wear, which has no piece configuration — a palazzo is a
+   * palazzo, not "1 piece". Previously this was encoded in the category name
+   * ("Two-Piece Set"), which meant a kurta-and-pant set could not also be filed
+   * under the craft that made it.
+   */
+  @Column({ type: 'smallint', nullable: true })
+  pieces: number | null;
 
   /**
    * Full-text search document, maintained entirely by a database trigger
