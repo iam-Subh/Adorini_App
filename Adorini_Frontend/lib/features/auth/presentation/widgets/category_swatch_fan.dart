@@ -29,20 +29,26 @@ class CategorySwatch {
   final Color bottom;
 }
 
-/// Six of the ten catalogue categories. Not all ten: at phone width, ten
-/// overlapping cards collapse into an unreadable smear, and the fan is
+/// Six of the seven catalogue categories. At phone width, seven
+/// overlapping cards reduce label readability, and the fan is
 /// decoration for the sign-in screen rather than a navigation surface.
 /// These six are the most visually distinct silhouettes in the range.
 ///
 /// Colours are muted on purpose — saturated versions of the same hues read
 /// as a discount app. Dusty reads as expensive.
 const List<CategorySwatch> kAdoriniSwatches = <CategorySwatch>[
-  CategorySwatch(label: 'KURTIS', top: Color(0xFFC98A70), bottom: Color(0xFFB5715A)),
-  CategorySwatch(label: 'SUIT SETS', top: Color(0xFFB07E60), bottom: Color(0xFF9C6B4F)),
-  CategorySwatch(label: 'KAFTAANS', top: Color(0xFFD9A85F), bottom: Color(0xFFC9954A)),
-  CategorySwatch(label: 'PALAZZOS', top: Color(0xFF9AA88D), bottom: Color(0xFF87957A)),
-  CategorySwatch(label: 'BLOUSES', top: Color(0xFFCB9E9C), bottom: Color(0xFFB98A88)),
-  CategorySwatch(label: 'ONE-PIECE', top: Color(0xFF8F7180), bottom: Color(0xFF7D5F6B)),
+  CategorySwatch(
+      label: 'PENCIL PANT', top: Color(0xFFC98A70), bottom: Color(0xFFB5715A)),
+  CategorySwatch(
+      label: 'PALAZZO', top: Color(0xFFB07E60), bottom: Color(0xFF9C6B4F)),
+  CategorySwatch(
+      label: 'LEGGINGS', top: Color(0xFFD9A85F), bottom: Color(0xFFC9954A)),
+  CategorySwatch(
+      label: 'ONE PIECE', top: Color(0xFF9AA88D), bottom: Color(0xFF87957A)),
+  CategorySwatch(
+      label: 'TWO PIECE', top: Color(0xFFCB9E9C), bottom: Color(0xFFB98A88)),
+  CategorySwatch(
+      label: 'THREE PIECE', top: Color(0xFF8F7180), bottom: Color(0xFF7D5F6B)),
 ];
 
 /// A fan of fabric swatches that drift in from the screen edges and settle
@@ -124,7 +130,8 @@ class _CategorySwatchFanState extends State<CategorySwatchFan>
             alignment: Alignment.topCenter,
             clipBehavior: Clip.none,
             children: <Widget>[
-              for (int i = 0; i < count; i++) _buildCard(i, centreIndex, screenWidth),
+              for (int i = 0; i < count; i++)
+                _buildCard(i, centreIndex, screenWidth),
             ],
           );
         },
@@ -154,12 +161,14 @@ class _CategorySwatchFanState extends State<CategorySwatchFan>
     ).value;
     final double fade = CurvedAnimation(
       parent: _entry,
-      curve: Interval(begin, (begin + 0.22).clamp(0.0, 1.0), curve: Curves.easeOut),
+      curve: Interval(begin, (begin + 0.22).clamp(0.0, 1.0),
+          curve: Curves.easeOut),
     ).value;
 
     // Each card enters from whichever edge it is closest to. A card exactly
     // in the middle (odd-length fans) rises from below instead.
-    final double offX = t == 0 ? 0 : (t < 0 ? -screenWidth * 0.75 : screenWidth * 0.75);
+    final double offX =
+        t == 0 ? 0 : (t < 0 ? -screenWidth * 0.75 : screenWidth * 0.75);
     final double offY = t == 0 ? widget.cardHeight * 1.5 : 0;
 
     final double x = restX + (offX * (1 - slide));
@@ -167,8 +176,9 @@ class _CategorySwatchFanState extends State<CategorySwatchFan>
 
     // Per-card phase so they don't bob in unison.
     final double phase = i * 0.37;
-    final double floatY =
-        math.sin(2 * math.pi * (_float.value + phase)) * _floatAmplitude * slide.clamp(0.0, 1.0);
+    final double floatY = math.sin(2 * math.pi * (_float.value + phase)) *
+        _floatAmplitude *
+        slide.clamp(0.0, 1.0);
 
     return Positioned(
       top: baseY + floatY,
@@ -213,7 +223,8 @@ class _SwatchCard extends StatelessWidget {
           end: Alignment.bottomCenter,
           colors: <Color>[swatch.top, swatch.bottom],
         ),
-        border: Border.all(color: Colors.white.withValues(alpha: 0.55), width: 1.2),
+        border:
+            Border.all(color: Colors.white.withValues(alpha: 0.55), width: 1.2),
         boxShadow: <BoxShadow>[
           BoxShadow(
             color: const Color(0xFF3A2A1E).withValues(alpha: 0.18),
