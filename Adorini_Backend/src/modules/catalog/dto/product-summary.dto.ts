@@ -13,7 +13,8 @@ export const productSummarySchema = z.object({
   fabricType: z.enum(FabricType),
   printTechnique: z.enum(PrintTechnique).nullable(),
   categorySlug: z.string(),
-  brandSlug: z.string(),
+  /** Null since brands left the storefront. */
+  brandSlug: z.string().nullable(),
   thumbnailUrl: z.url().nullable(),
 });
 

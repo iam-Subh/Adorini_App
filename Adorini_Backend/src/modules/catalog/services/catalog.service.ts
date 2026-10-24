@@ -136,7 +136,10 @@ export class CatalogService {
     const qb = this.productRepo
       .createQueryBuilder('product')
       .innerJoin('product.category', 'category')
-      .innerJoin('product.brand', 'brand')
+      // LEFT, not inner: brand is nullable and an inner join would silently
+      // drop every product that has none - which, since brands were removed
+      // from the shop, is all of them.
+      .leftJoin('product.brand', 'brand')
       // Assumes the admin-curated primary image is always the displayOrder-0
       // ADMIN asset — true for every product seeded/admin-created so far.
       // Revisit with a proper "first row per group" join if that stops holding.
@@ -161,7 +164,7 @@ export class CatalogService {
       ])
       .where('product.isActive = true')
       .andWhere('category.isActive = true')
-      .andWhere('brand.isActive = true');
+      .andWhere('(brand.id IS NULL OR brand.isActive = true)');
 
     if (query.category) {
       qb.andWhere('category.slug = :categorySlug', { categorySlug: query.category });
@@ -245,7 +248,7 @@ export class CatalogService {
         fabricType: p.fabricType,
         printTechnique: p.printTechnique,
         categorySlug: p.category.slug,
-        brandSlug: p.brand.slug,
+        brandSlug: p.brand?.slug ?? null,
         thumbnailUrl: p.media?.[0]?.objectKey ? this.toPublicUrl(p.media[0].objectKey) : null,
       })),
       nextCursor:
@@ -304,19 +307,13 @@ export class CatalogService {
   async suggest(query: SuggestQueryDto): Promise<SearchSuggestionsResponseDto> {
     const pattern = `%${query.q.trim().replace(/[%_]/g, '\\$&')}%`;
 
-    const [categories, brands, products] = await Promise.all([
+    // Brands are not part of the shop any more, so nothing suggests them.
+    const [categories, products] = await Promise.all([
       this.categoryRepo
         .createQueryBuilder('category')
         .where('category.isActive = true')
         .andWhere('category.name ILIKE :pattern', { pattern })
         .orderBy('category.displayOrder', 'ASC')
-        .take(query.limit)
-        .getMany(),
-      this.brandRepo
-        .createQueryBuilder('brand')
-        .where('brand.isActive = true')
-        .andWhere('brand.name ILIKE :pattern', { pattern })
-        .orderBy('brand.displayOrder', 'ASC')
         .take(query.limit)
         .getMany(),
       this.productRepo
@@ -331,7 +328,6 @@ export class CatalogService {
 
     const items = [
       ...categories.map((c) => ({ kind: 'CATEGORY' as const, label: c.name, slug: c.slug })),
-      ...brands.map((b) => ({ kind: 'BRAND' as const, label: b.name, slug: b.slug })),
       ...products.map((p) => ({ kind: 'PRODUCT' as const, label: p.name, slug: p.slug })),
     ].slice(0, query.limit);
 
