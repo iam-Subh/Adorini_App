@@ -8,9 +8,9 @@ import '../../data/catalog_api.dart';
 import '../../data/product_model.dart';
 import '../../domain/catalog_providers.dart';
 
-/// Adorini stocks nominal sizes 40–48 — anything outside that band goes through
+/// Adorini stocks nominal sizes 40–46 — anything outside that band goes through
 /// the PDP's size-enquiry form instead.
-const List<int> _nominalSizes = <int>[40, 42, 44, 46, 48];
+const List<int> _nominalSizes = <int>[40, 42, 44, 46];
 
 class FilterBottomSheet extends ConsumerStatefulWidget {
   const FilterBottomSheet({super.key});
@@ -22,7 +22,6 @@ class FilterBottomSheet extends ConsumerStatefulWidget {
 class _FilterBottomSheetState extends ConsumerState<FilterBottomSheet> {
   late final CatalogFilters _initialFilters;
   late String? _category;
-  late String? _brand;
   late int? _size;
   late FabricType? _fabricType;
   late CatalogSort _sort;
@@ -32,7 +31,6 @@ class _FilterBottomSheetState extends ConsumerState<FilterBottomSheet> {
     super.initState();
     _initialFilters = ref.read(catalogFiltersProvider);
     _category = _initialFilters.category;
-    _brand = _initialFilters.brand;
     _size = _initialFilters.size;
     _fabricType = _initialFilters.fabricType;
     _sort = _initialFilters.sort;
@@ -41,7 +39,6 @@ class _FilterBottomSheetState extends ConsumerState<FilterBottomSheet> {
   void _apply() {
     ref.read(catalogFiltersProvider.notifier).state = CatalogFilters(
       category: _category,
-      brand: _brand,
       size: _size,
       fabricType: _fabricType,
       printTechnique: _initialFilters.printTechnique,
@@ -61,7 +58,6 @@ class _FilterBottomSheetState extends ConsumerState<FilterBottomSheet> {
   @override
   Widget build(BuildContext context) {
     final AsyncValue<List<Category>> categories = ref.watch(categoriesProvider);
-    final AsyncValue<List<Brand>> brands = ref.watch(brandsProvider);
 
     return DraggableScrollableSheet(
       expand: false,
@@ -108,7 +104,6 @@ class _FilterBottomSheetState extends ConsumerState<FilterBottomSheet> {
                     ],
                   ),
                   const SizedBox(height: AppSpacing.md),
-
                   Text('Category', style: AppTypography.labelBold),
                   const SizedBox(height: AppSpacing.xs),
                   categories.when(
@@ -129,28 +124,6 @@ class _FilterBottomSheetState extends ConsumerState<FilterBottomSheet> {
                     loading: () => const LinearProgressIndicator(),
                   ),
                   const SizedBox(height: AppSpacing.md),
-
-                  Text('Brand', style: AppTypography.labelBold),
-                  const SizedBox(height: AppSpacing.xs),
-                  brands.when(
-                    data: (List<Brand> items) => Wrap(
-                      spacing: AppSpacing.xs,
-                      children: items.map((Brand b) {
-                        return ChoiceChip(
-                          label: Text(b.name),
-                          selected: _brand == b.slug,
-                          onSelected: (bool selected) => setState(
-                            () => _brand = selected ? b.slug : null,
-                          ),
-                        );
-                      }).toList(),
-                    ),
-                    error: (Object e, StackTrace s) =>
-                        const Text('Could not load brands'),
-                    loading: () => const LinearProgressIndicator(),
-                  ),
-                  const SizedBox(height: AppSpacing.md),
-
                   Text('Size', style: AppTypography.labelBold),
                   const SizedBox(height: AppSpacing.xs),
                   Wrap(
@@ -166,7 +139,6 @@ class _FilterBottomSheetState extends ConsumerState<FilterBottomSheet> {
                     }).toList(),
                   ),
                   const SizedBox(height: AppSpacing.md),
-
                   Text('Fabric', style: AppTypography.labelBold),
                   const SizedBox(height: AppSpacing.xs),
                   Wrap(
@@ -184,7 +156,6 @@ class _FilterBottomSheetState extends ConsumerState<FilterBottomSheet> {
                     }).toList(),
                   ),
                   const SizedBox(height: AppSpacing.md),
-
                   Text('Sort by', style: AppTypography.labelBold),
                   const SizedBox(height: AppSpacing.xs),
                   Wrap(

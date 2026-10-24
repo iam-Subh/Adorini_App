@@ -10,7 +10,7 @@ class ProductSummary {
     required this.pricePaise,
     required this.fabricType,
     required this.categorySlug,
-    required this.brandSlug,
+    this.brandSlug,
     this.compareAtPricePaise,
     this.printTechnique,
     this.thumbnailUrl,
@@ -26,7 +26,7 @@ class ProductSummary {
       fabricType: FabricType.fromWire(json['fabricType'] as String),
       printTechnique: PrintTechnique.fromWire(json['printTechnique'] as String?),
       categorySlug: json['categorySlug'] as String,
-      brandSlug: json['brandSlug'] as String,
+      brandSlug: json['brandSlug'] as String?,
       thumbnailUrl: json['thumbnailUrl'] as String?,
     );
   }
@@ -39,7 +39,9 @@ class ProductSummary {
   final FabricType fabricType;
   final PrintTechnique? printTechnique;
   final String categorySlug;
-  final String brandSlug;
+  /// Null: Adorini does not present garments by brand. Kept on the model
+  /// because the API still returns the field for internal records.
+  final String? brandSlug;
   final String? thumbnailUrl;
 
   bool get isDiscounted =>
