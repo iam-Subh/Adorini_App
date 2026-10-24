@@ -108,6 +108,17 @@ class AuthController extends Notifier<AuthState> {
     }
   }
 
+  /// The refresh token was rejected: the session is over, and the tokens have
+  /// already been cleared by the HTTP layer.
+  ///
+  /// Only the status is reset here - no network call. The server has already
+  /// refused us, so asking it to revoke a session it has revoked would just be
+  /// another 401.
+  void markSessionExpired() {
+    if (state.status == AuthStatus.unauthenticated) return;
+    state = const AuthState(status: AuthStatus.unauthenticated);
+  }
+
   Future<void> logout() async {
     final String? refreshToken = await _tokenStorage.readRefreshToken();
     if (refreshToken != null) {
