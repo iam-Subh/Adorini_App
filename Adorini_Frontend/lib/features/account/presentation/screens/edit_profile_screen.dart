@@ -17,6 +17,7 @@ import '../../../auth/data/auth_api.dart';
 import '../../../checkout/data/checkout_api.dart';
 import '../../../checkout/domain/checkout_providers.dart';
 import '../../domain/account_providers.dart';
+import '../profile_initial.dart';
 
 class EditProfileScreen extends ConsumerStatefulWidget {
   const EditProfileScreen({super.key});
@@ -409,24 +410,34 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen>
   }
 
   Widget _buildPhotoSection() {
-    final String initials = _initials(_user?.displayName ?? 'A');
     return Center(
       child: Column(
         children: <Widget>[
-          CircleAvatar(
-            radius: 44,
-            backgroundColor: AppColors.primaryContainer,
-            foregroundColor: AppColors.onPrimaryContainer,
-            backgroundImage:
-                _selectedPhoto == null ? null : MemoryImage(_selectedPhoto!),
-            child: _selectedPhoto != null
-                ? null
-                : Text(
-                    initials,
-                    style: AppTypography.bodyMdBold.copyWith(
-                      color: AppColors.onPrimaryContainer,
-                    ),
-                  ),
+          ValueListenableBuilder<TextEditingValue>(
+            valueListenable: _firstNameController,
+            builder:
+                (BuildContext context, TextEditingValue value, Widget? child) {
+              final String initial = profileInitial(value.text);
+              return CircleAvatar(
+                radius: 44,
+                backgroundColor: AppColors.primaryContainer,
+                foregroundColor: AppColors.onPrimaryContainer,
+                backgroundImage: _selectedPhoto == null
+                    ? null
+                    : MemoryImage(_selectedPhoto!),
+                child: _selectedPhoto != null
+                    ? null
+                    : initial.isEmpty
+                        ? const Icon(Icons.person_outline)
+                        : Text(
+                            initial,
+                            style: AppTypography.titleMd.copyWith(
+                              color: AppColors.onPrimaryContainer,
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
+              );
+            },
           ),
           const SizedBox(height: AppSpacing.base),
           Material(
@@ -455,12 +466,6 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen>
         ],
       ),
     );
-  }
-
-  String _initials(String name) {
-    final List<String> words = name.trim().split(RegExp(r'\s+'));
-    if (words.length == 1) return words.first.substring(0, 1).toUpperCase();
-    return '${words.first[0]}${words.last[0]}'.toUpperCase();
   }
 
   Future<void> _choosePhotoSource() async {

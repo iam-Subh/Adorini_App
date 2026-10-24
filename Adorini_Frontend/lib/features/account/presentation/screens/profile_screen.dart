@@ -9,6 +9,7 @@ import '../../../../core/theme/app_typography.dart';
 import '../../../auth/data/auth_api.dart';
 import '../../../auth/domain/auth_controller.dart';
 import '../../domain/account_providers.dart';
+import '../profile_initial.dart';
 
 class ProfileScreen extends ConsumerWidget {
   const ProfileScreen({super.key});
@@ -152,13 +153,15 @@ class _AccountHeader extends StatelessWidget {
               radius: 38,
               backgroundColor: AppColors.primaryContainer,
               foregroundColor: AppColors.onPrimaryContainer,
-              child: Text(
-                _initials(user.displayName),
-                style: AppTypography.titleMd.copyWith(
-                  color: AppColors.onPrimaryContainer,
-                  fontWeight: FontWeight.w700,
-                ),
-              ),
+              child: profileInitial(user.fullName).isEmpty
+                  ? const Icon(Icons.person_outline)
+                  : Text(
+                      profileInitial(user.fullName),
+                      style: AppTypography.titleMd.copyWith(
+                        color: AppColors.onPrimaryContainer,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
             ),
             const SizedBox(height: AppSpacing.sm),
             Text(
@@ -185,17 +188,6 @@ class _AccountHeader extends StatelessWidget {
         loading: () => const Center(child: CircularProgressIndicator()),
       ),
     );
-  }
-
-  String _initials(String name) {
-    final List<String> words = name
-        .trim()
-        .split(RegExp(r'\s+'))
-        .where((String word) => word.isNotEmpty)
-        .toList();
-    if (words.isEmpty) return 'A';
-    if (words.length == 1) return words.first.substring(0, 1).toUpperCase();
-    return '${words.first[0]}${words.last[0]}'.toUpperCase();
   }
 }
 
