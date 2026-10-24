@@ -112,7 +112,6 @@ class ProductDetail {
     required this.pricePaise,
     required this.fabricType,
     required this.categoryName,
-    required this.brandName,
     required this.variants,
     required this.availableSizes,
     required this.availableColours,
@@ -143,7 +142,6 @@ class ProductDetail {
           PrintTechnique.fromWire(json['printTechnique'] as String?),
       categoryName:
           (json['category'] as Map<String, dynamic>)['name'] as String,
-      brandName: (json['brand'] as Map<String, dynamic>)['name'] as String,
       variants: (json['variants'] as List<dynamic>? ?? <dynamic>[])
           .map(
               (dynamic e) => ProductVariant.fromJson(e as Map<String, dynamic>))
@@ -172,7 +170,6 @@ class ProductDetail {
   final FabricType fabricType;
   final PrintTechnique? printTechnique;
   final String categoryName;
-  final String brandName;
   final List<ProductVariant> variants;
   final List<int> availableSizes;
   final List<String> availableColours;

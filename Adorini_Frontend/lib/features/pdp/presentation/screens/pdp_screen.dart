@@ -100,9 +100,8 @@ class _Body extends ConsumerWidget {
           padding: const EdgeInsets.all(AppSpacing.containerMargin),
           sliver: SliverList(
             delegate: SliverChildListDelegate(<Widget>[
-              Text(detail.brandName.toUpperCase(),
-                  style: AppTypography.labelBold),
-              const SizedBox(height: AppSpacing.xs),
+              // The brand line used to sit here. Adorini does not present
+              // garments by supplier, so the product name leads.
               Text(detail.name, style: AppTypography.headlineLgMobile),
               const SizedBox(height: AppSpacing.xs),
               Row(
