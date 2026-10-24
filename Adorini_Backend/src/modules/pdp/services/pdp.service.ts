@@ -83,7 +83,7 @@ export class PdpService {
     const product = await this.productRepo
       .createQueryBuilder('product')
       .innerJoinAndSelect('product.category', 'category')
-      .innerJoinAndSelect('product.brand', 'brand')
+      .leftJoinAndSelect('product.brand', 'brand')
       .where('product.slug = :slug', { slug })
       .andWhere('product.isActive = true')
       .getOne();
@@ -123,7 +123,8 @@ export class PdpService {
       fabricType: product.fabricType,
       printTechnique: product.printTechnique,
       category: { slug: product.category.slug, name: product.category.name },
-      brand: { slug: product.brand.slug, name: product.brand.name },
+      // Null since brands left the storefront; the PDP simply omits the line.
+      brand: product.brand ? { slug: product.brand.slug, name: product.brand.name } : null,
       variants: variants.map((v) => ({
         id: v.id,
         sku: v.sku,

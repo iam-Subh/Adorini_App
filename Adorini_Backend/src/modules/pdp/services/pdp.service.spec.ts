@@ -33,6 +33,7 @@ function buildQb(overrides: Record<string, unknown> = {}) {
     'innerJoin',
     'innerJoinAndSelect',
     'leftJoin',
+    'leftJoinAndSelect',
     'select',
     'addSelect',
     'where',

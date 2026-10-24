@@ -48,7 +48,8 @@ export const productDetailSchema = z.object({
   fabricType: z.enum(FabricType),
   printTechnique: z.enum(PrintTechnique).nullable(),
   category: z.object({ slug: z.string(), name: z.string() }),
-  brand: z.object({ slug: z.string(), name: z.string() }),
+  /** Null since brands left the storefront. */
+  brand: z.object({ slug: z.string(), name: z.string() }).nullable(),
   variants: z.array(variantSchema),
   /** Distinct in-stock chips for the size/colour selectors. */
   availableSizes: z.array(z.number().int()),
