@@ -1,0 +1,416 @@
+[
+  {
+    "sourceDocument": "Palazzo and Straight and pencil pant.docx",
+    "sourceIndex": 1,
+    "category": "pencil-pants",
+    "productSlug": "payal-premium-pencil-pant",
+    "file": "pencil-pants/payal-premium-pencil-pant/01-primary.jpg",
+    "displayOrder": 0,
+    "altText": "Payal Premium Pencil Pant"
+  },
+  {
+    "sourceDocument": "Palazzo and Straight and pencil pant.docx",
+    "sourceIndex": 2,
+    "category": "palazzos",
+    "productSlug": "cobalt-blue-patchwork-hem-palazzo",
+    "file": "palazzos/cobalt-blue-patchwork-hem-palazzo/01-primary.png",
+    "displayOrder": 0,
+    "altText": "Cobalt Blue Patchwork-Hem Palazzo"
+  },
+  {
+    "sourceDocument": "Palazzo and Straight and pencil pant.docx",
+    "sourceIndex": 3,
+    "category": "palazzos",
+    "productSlug": "beige-ikat-border-palazzo",
+    "file": "palazzos/beige-ikat-border-palazzo/01-primary.png",
+    "displayOrder": 0,
+    "altText": "Beige Ikat Border Palazzo"
+  },
+  {
+    "sourceDocument": "Palazzo and Straight and pencil pant.docx",
+    "sourceIndex": 4,
+    "category": "palazzos",
+    "productSlug": "mustard-yellow-patchwork-hem-palazzo",
+    "file": "palazzos/mustard-yellow-patchwork-hem-palazzo/01-primary.jpg",
+    "displayOrder": 0,
+    "altText": "Mustard Yellow Patchwork-Hem Palazzo"
+  },
+  {
+    "sourceDocument": "Palazzo and Straight and pencil pant.docx",
+    "sourceIndex": 5,
+    "category": "palazzos",
+    "productSlug": "multicolor-patchwork-harem-palazzo",
+    "file": "palazzos/multicolor-patchwork-harem-palazzo/01-primary.jpg",
+    "displayOrder": 0,
+    "altText": "Multicolor Patchwork Harem Palazzo"
+  },
+  {
+    "sourceDocument": "Leggings(Only Free size).docx",
+    "sourceIndex": 1,
+    "category": "leggings",
+    "productSlug": "lyra-premium-churidar-legging",
+    "file": "leggings/lyra-premium-churidar-legging/01-bright-blue.jpg",
+    "displayOrder": 0,
+    "altText": "Lyra Premium Churidar Legging - Bright Blue"
+  },
+  {
+    "sourceDocument": "Leggings(Only Free size).docx",
+    "sourceIndex": 2,
+    "category": "leggings",
+    "productSlug": "lyra-premium-churidar-legging",
+    "file": "leggings/lyra-premium-churidar-legging/02-deep-maroon.jpg",
+    "displayOrder": 1,
+    "altText": "Lyra Premium Churidar Legging - Deep Maroon"
+  },
+  {
+    "sourceDocument": "Leggings(Only Free size).docx",
+    "sourceIndex": 3,
+    "category": "leggings",
+    "productSlug": "lyra-premium-churidar-legging",
+    "file": "leggings/lyra-premium-churidar-legging/03-red.jpg",
+    "displayOrder": 2,
+    "altText": "Lyra Premium Churidar Legging - Red"
+  },
+  {
+    "sourceDocument": "Leggings(Only Free size).docx",
+    "sourceIndex": 4,
+    "category": "leggings",
+    "productSlug": "lyra-premium-churidar-legging",
+    "file": "leggings/lyra-premium-churidar-legging/04-white.jpg",
+    "displayOrder": 3,
+    "altText": "Lyra Premium Churidar Legging - White"
+  },
+  {
+    "sourceDocument": "Leggings(Only Free size).docx",
+    "sourceIndex": 5,
+    "category": "leggings",
+    "productSlug": "lyra-premium-churidar-legging",
+    "file": "leggings/lyra-premium-churidar-legging/05-bright-aqua-blue.jpg",
+    "displayOrder": 4,
+    "altText": "Lyra Premium Churidar Legging - Bright Aqua Blue"
+  },
+  {
+    "sourceDocument": "Leggings(Only Free size).docx",
+    "sourceIndex": 6,
+    "category": "leggings",
+    "productSlug": "lyra-premium-churidar-legging",
+    "file": "leggings/lyra-premium-churidar-legging/06-mustard-yellow.jpg",
+    "displayOrder": 5,
+    "altText": "Lyra Premium Churidar Legging - Mustard Yellow"
+  },
+  {
+    "sourceDocument": "Leggings(Only Free size).docx",
+    "sourceIndex": 7,
+    "category": "leggings",
+    "productSlug": "lyra-premium-churidar-legging",
+    "file": "leggings/lyra-premium-churidar-legging/07-vibrant-purple.jpg",
+    "displayOrder": 6,
+    "altText": "Lyra Premium Churidar Legging - Vibrant Purple"
+  },
+  {
+    "sourceDocument": "Leggings(Only Free size).docx",
+    "sourceIndex": 8,
+    "category": "leggings",
+    "productSlug": "lyra-premium-churidar-legging",
+    "file": "leggings/lyra-premium-churidar-legging/08-true-black.jpg",
+    "displayOrder": 7,
+    "altText": "Lyra Premium Churidar Legging - True Black"
+  },
+  {
+    "sourceDocument": "Leggings(Only Free size).docx",
+    "sourceIndex": 9,
+    "category": "leggings",
+    "productSlug": "lyra-premium-churidar-legging",
+    "file": "leggings/lyra-premium-churidar-legging/09-lavender-purple.jpg",
+    "displayOrder": 8,
+    "altText": "Lyra Premium Churidar Legging - Lavender Purple"
+  },
+  {
+    "sourceDocument": "kurti(same as One peice)_catalog.docx",
+    "sourceIndex": 1,
+    "category": "one-piece",
+    "productSlug": "magenta-ikat-wrap-dress",
+    "file": "one-piece/magenta-ikat-wrap-dress/01-primary.png",
+    "displayOrder": 0,
+    "altText": "Magenta Ikat Wrap Dress"
+  },
+  {
+    "sourceDocument": "kurti(same as One peice)_catalog.docx",
+    "sourceIndex": 2,
+    "category": "one-piece",
+    "productSlug": "purple-lotus-v-yoke-kurti",
+    "file": "one-piece/purple-lotus-v-yoke-kurti/01-primary.png",
+    "displayOrder": 0,
+    "altText": "Purple Lotus V-Yoke Kurti"
+  },
+  {
+    "sourceDocument": "kurti(same as One peice)_catalog.docx",
+    "sourceIndex": 3,
+    "category": "one-piece",
+    "productSlug": "teal-kalamkari-patch-kurti",
+    "file": "one-piece/teal-kalamkari-patch-kurti/01-primary.jpg",
+    "displayOrder": 0,
+    "altText": "Teal Kalamkari-Patch Kurti"
+  },
+  {
+    "sourceDocument": "kurti(same as One peice)_catalog.docx",
+    "sourceIndex": 4,
+    "category": "one-piece",
+    "productSlug": "green-embroidered-collar-kurti",
+    "file": "one-piece/green-embroidered-collar-kurti/01-primary.png",
+    "displayOrder": 0,
+    "altText": "Green Embroidered Collar Kurti"
+  },
+  {
+    "sourceDocument": "kurti(same as One peice)_catalog.docx",
+    "sourceIndex": 5,
+    "category": "one-piece",
+    "productSlug": "burnt-orange-patchwork-kurti",
+    "file": "one-piece/burnt-orange-patchwork-kurti/01-primary.png",
+    "displayOrder": 0,
+    "altText": "Burnt Orange Patchwork Kurti"
+  },
+  {
+    "sourceDocument": "kurti(same as One peice)_catalog.docx",
+    "sourceIndex": 6,
+    "category": "one-piece",
+    "productSlug": "indigo-spiral-kaftan-dress",
+    "file": "one-piece/indigo-spiral-kaftan-dress/01-primary.png",
+    "displayOrder": 0,
+    "altText": "Indigo Spiral Kaftan Dress"
+  },
+  {
+    "sourceDocument": "kurti(same as One peice)_catalog.docx",
+    "sourceIndex": 7,
+    "category": "two-piece",
+    "productSlug": "cerulean-kalamkari-kurti-set",
+    "file": "two-piece/cerulean-kalamkari-kurti-set/01-primary.png",
+    "displayOrder": 0,
+    "altText": "Cerulean Kalamkari Kurti Set"
+  },
+  {
+    "sourceDocument": "kurti(same as One peice)_catalog.docx",
+    "sourceIndex": 8,
+    "category": "one-piece",
+    "productSlug": "black-embroidered-yoke-kurta",
+    "file": "one-piece/black-embroidered-yoke-kurta/01-primary.png",
+    "displayOrder": 0,
+    "altText": "Black Embroidered Yoke Kurta"
+  },
+  {
+    "sourceDocument": "kurti(same as One peice)_catalog.docx",
+    "sourceIndex": 9,
+    "category": "one-piece",
+    "productSlug": "plum-mirror-work-kurta",
+    "file": "one-piece/plum-mirror-work-kurta/01-primary.png",
+    "displayOrder": 0,
+    "altText": "Plum Mirror-Work Kurta"
+  },
+  {
+    "sourceDocument": "kurti(same as One peice)_catalog.docx",
+    "sourceIndex": 10,
+    "category": "one-piece",
+    "productSlug": "lime-green-applique-kurti",
+    "file": "one-piece/lime-green-applique-kurti/01-primary.png",
+    "displayOrder": 0,
+    "altText": "Lime Green Applique Kurti"
+  },
+  {
+    "sourceDocument": "kurti(same as One peice)_catalog.docx",
+    "sourceIndex": 11,
+    "category": "one-piece",
+    "productSlug": "maroon-hand-painted-panel-kurta",
+    "file": "one-piece/maroon-hand-painted-panel-kurta/01-primary.png",
+    "displayOrder": 0,
+    "altText": "Maroon Hand-Painted Panel Kurta"
+  },
+  {
+    "sourceDocument": "kurti(same as One peice)_catalog.docx",
+    "sourceIndex": 12,
+    "category": "two-piece",
+    "productSlug": "modern-folk-kurta-legging-set",
+    "file": "two-piece/modern-folk-kurta-legging-set/01-primary.png",
+    "displayOrder": 0,
+    "altText": "Modern Folk Kurta and Legging Set"
+  },
+  {
+    "sourceDocument": "kurti(same as One peice)_catalog.docx",
+    "sourceIndex": 13,
+    "category": "one-piece",
+    "productSlug": "red-check-pleated-kurta",
+    "file": "one-piece/red-check-pleated-kurta/01-primary.png",
+    "displayOrder": 0,
+    "altText": "Red Check Pleated Kurta"
+  },
+  {
+    "sourceDocument": "kurti(same as One peice)_catalog.docx",
+    "sourceIndex": 14,
+    "category": "one-piece",
+    "productSlug": "teal-peacock-patchwork-kurti",
+    "file": "one-piece/teal-peacock-patchwork-kurti/01-primary.png",
+    "displayOrder": 0,
+    "altText": "Teal Peacock Patchwork Kurti"
+  },
+  {
+    "sourceDocument": "kurti(same as One peice)_catalog.docx",
+    "sourceIndex": 15,
+    "category": "one-piece",
+    "productSlug": "ivory-gingham-floral-kurti",
+    "file": "one-piece/ivory-gingham-floral-kurti/01-primary.png",
+    "displayOrder": 0,
+    "altText": "Ivory Gingham Floral Kurti"
+  },
+  {
+    "sourceDocument": "kurti(same as One peice)_catalog.docx",
+    "sourceIndex": 16,
+    "category": "one-piece",
+    "productSlug": "teal-floral-center-panel-kurti",
+    "file": "one-piece/teal-floral-center-panel-kurti/01-primary.png",
+    "displayOrder": 0,
+    "altText": "Teal Floral Center-Panel Kurti"
+  },
+  {
+    "sourceDocument": "kurti(same as One peice)_catalog.docx",
+    "sourceIndex": 17,
+    "category": "one-piece",
+    "productSlug": "navy-batik-warrior-kaftan",
+    "file": "one-piece/navy-batik-warrior-kaftan/01-primary.png",
+    "displayOrder": 0,
+    "altText": "Navy Batik Warrior Kaftan"
+  },
+  {
+    "sourceDocument": "kurti(same as One peice)_catalog.docx",
+    "sourceIndex": 18,
+    "category": "one-piece",
+    "productSlug": "mustard-embroidered-angrakha-kurti",
+    "file": "one-piece/mustard-embroidered-angrakha-kurti/01-primary.png",
+    "displayOrder": 0,
+    "altText": "Mustard Embroidered Angrakha Kurti"
+  },
+  {
+    "sourceDocument": "kurti(same as One peice)_catalog.docx",
+    "sourceIndex": 19,
+    "category": "one-piece",
+    "productSlug": "black-maroon-wrap-panel-kurta",
+    "file": "one-piece/black-maroon-wrap-panel-kurta/01-primary.png",
+    "displayOrder": 0,
+    "altText": "Black Maroon Wrap-Panel Kurta"
+  },
+  {
+    "sourceDocument": "kurti(same as One peice)_catalog.docx",
+    "sourceIndex": 20,
+    "category": "one-piece",
+    "productSlug": "green-peacock-fish-print-tunic",
+    "file": "one-piece/green-peacock-fish-print-tunic/01-primary.png",
+    "displayOrder": 0,
+    "altText": "Green Peacock and Fish Print Tunic"
+  },
+  {
+    "sourceDocument": "kurti(same as One peice)_catalog.docx",
+    "sourceIndex": 21,
+    "category": "one-piece",
+    "productSlug": "ivory-ikat-wrap-kurti",
+    "file": "one-piece/ivory-ikat-wrap-kurti/01-primary.png",
+    "displayOrder": 0,
+    "altText": "Ivory Ikat Wrap Kurti"
+  },
+  {
+    "sourceDocument": "THREE_PIECE_SETS_ALL.docx",
+    "sourceIndex": 1,
+    "category": "three-piece",
+    "productSlug": "ivory-ajrakh-eyelet-kurta-set",
+    "file": "three-piece/ivory-ajrakh-eyelet-kurta-set/01-primary.png",
+    "displayOrder": 0,
+    "altText": "Ivory Ajrakh Eyelet Kurta Set"
+  },
+  {
+    "sourceDocument": "THREE_PIECE_SETS_ALL.docx",
+    "sourceIndex": 2,
+    "category": "three-piece",
+    "productSlug": "magenta-bandhani-circle-print-kurta-set",
+    "file": "three-piece/magenta-bandhani-circle-print-kurta-set/01-primary.png",
+    "displayOrder": 0,
+    "altText": "Magenta Bandhani Circle-Print Kurta Set"
+  },
+  {
+    "sourceDocument": "THREE_PIECE_SETS_ALL.docx",
+    "sourceIndex": 3,
+    "category": "three-piece",
+    "productSlug": "teal-zari-embroidered-kurta-set",
+    "file": "three-piece/teal-zari-embroidered-kurta-set/01-primary.png",
+    "displayOrder": 0,
+    "altText": "Teal Zari-Embroidered Kurta Set"
+  },
+  {
+    "sourceDocument": "THREE_PIECE_SETS_ALL.docx",
+    "sourceIndex": 4,
+    "category": "three-piece",
+    "productSlug": "lilac-floral-embroidered-kurta-set",
+    "file": "three-piece/lilac-floral-embroidered-kurta-set/01-primary.png",
+    "displayOrder": 0,
+    "altText": "Lilac Floral Embroidered Kurta Set"
+  },
+  {
+    "sourceDocument": "THREE_PIECE_SETS_ALL.docx",
+    "sourceIndex": 5,
+    "category": "three-piece",
+    "productSlug": "red-bandhani-print-kurta-set",
+    "file": "three-piece/red-bandhani-print-kurta-set/01-primary.png",
+    "displayOrder": 0,
+    "altText": "Red Bandhani Print Kurta Set"
+  },
+  {
+    "sourceDocument": "THREE_PIECE_SETS_ALL.docx",
+    "sourceIndex": 6,
+    "category": "three-piece",
+    "productSlug": "blue-ikat-chevron-suit-set",
+    "file": "three-piece/blue-ikat-chevron-suit-set/01-primary.png",
+    "displayOrder": 0,
+    "altText": "Blue Ikat & Chevron Suit Set"
+  },
+  {
+    "sourceDocument": "THREE_PIECE_SETS_ALL.docx",
+    "sourceIndex": 7,
+    "category": "three-piece",
+    "productSlug": "mauve-bandhani-print-suit-set",
+    "file": "three-piece/mauve-bandhani-print-suit-set/01-primary.png",
+    "displayOrder": 0,
+    "altText": "Mauve Bandhani-Print Suit Set"
+  },
+  {
+    "sourceDocument": "THREE_PIECE_SETS_ALL.docx",
+    "sourceIndex": 8,
+    "category": "three-piece",
+    "productSlug": "dusty-rose-embroidered-kaftan-sleeve-kurta-set",
+    "file": "three-piece/dusty-rose-embroidered-kaftan-sleeve-kurta-set/01-primary.png",
+    "displayOrder": 0,
+    "altText": "Dusty Rose Embroidered Kaftan-Sleeve Kurta Set"
+  },
+  {
+    "sourceDocument": "THREE_PIECE_SETS_ALL.docx",
+    "sourceIndex": 9,
+    "category": "three-piece",
+    "productSlug": "zoya-royal-blue-embroidered-suit-set",
+    "file": "three-piece/zoya-royal-blue-embroidered-suit-set/01-primary.png",
+    "displayOrder": 0,
+    "altText": "Zoya Royal Blue Embroidered Suit Set"
+  },
+  {
+    "sourceDocument": "THREE_PIECE_SETS_ALL.docx",
+    "sourceIndex": 10,
+    "category": "three-piece",
+    "productSlug": "red-ajrakh-medallion-yoke-suit-set",
+    "file": "three-piece/red-ajrakh-medallion-yoke-suit-set/01-primary.png",
+    "displayOrder": 0,
+    "altText": "Red Ajrakh Medallion Yoke Suit Set"
+  },
+  {
+    "sourceDocument": "THREE_PIECE_SETS_ALL.docx",
+    "sourceIndex": 11,
+    "category": "three-piece",
+    "productSlug": "sage-green-bird-floral-print-suit-set",
+    "file": "three-piece/sage-green-bird-floral-print-suit-set/01-primary.png",
+    "displayOrder": 0,
+    "altText": "Sage Green Bird & Floral Print Suit Set"
+  }
+]
