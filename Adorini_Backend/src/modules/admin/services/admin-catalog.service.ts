@@ -110,7 +110,9 @@ export class AdminCatalogService {
     if (dto.categoryId || dto.brandId) {
       await this.assertCategoryAndBrandExist(
         dto.categoryId ?? product.categoryId,
-        dto.brandId ?? product.brandId,
+        // `?? undefined` rather than `?? product.brandId`: a product may now
+        // have no brand at all, and there is nothing to validate in that case.
+        dto.brandId ?? product.brandId ?? undefined,
       );
     }
 
@@ -334,10 +336,18 @@ export class AdminCatalogService {
     }
   }
 
-  private async assertCategoryAndBrandExist(categoryId: string, brandId: string): Promise<void> {
+  /**
+   * `brandId` is optional: products may have no brand since it left the
+   * storefront. A supplied one is still validated - passing an id that does not
+   * exist is a mistake worth reporting, even for a field nobody displays.
+   */
+  private async assertCategoryAndBrandExist(
+    categoryId: string,
+    brandId?: string,
+  ): Promise<void> {
     const [categoryCount, brandCount] = await Promise.all([
       this.categories.countBy({ id: categoryId }),
-      this.brands.countBy({ id: brandId }),
+      brandId === undefined ? Promise.resolve(1) : this.brands.countBy({ id: brandId }),
     ]);
 
     if (categoryCount === 0) {
