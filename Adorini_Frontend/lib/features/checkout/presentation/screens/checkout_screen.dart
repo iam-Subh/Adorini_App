@@ -12,8 +12,10 @@ import '../../../cart/data/cart_api.dart';
 import '../../../cart/domain/cart_controller.dart';
 import '../../../growth/domain/wallet_providers.dart';
 import '../../../growth/data/wallet_api.dart';
+import '../../../../core/theme/app_colors.dart';
 import '../../data/checkout_api.dart';
 import '../../domain/checkout_providers.dart';
+import '../widgets/add_address_sheet.dart';
 import 'cod_verification_screen.dart';
 
 class CheckoutScreen extends ConsumerStatefulWidget {
@@ -29,6 +31,13 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
   bool _useWallet = false;
   bool _placing = false;
   String? _error;
+
+  Future<void> _openAddAddressModal() async {
+    final Address? created = await AddAddressSheet.show(context);
+    if (created != null && mounted) {
+      setState(() => _addressId = created.id);
+    }
+  }
 
   Future<void> _place() async {
     if (_addressId == null) return;
@@ -93,22 +102,112 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
       body: ListView(
         padding: const EdgeInsets.all(AppSpacing.containerMargin),
         children: <Widget>[
-          Text('Delivery address', style: AppTypography.labelBold),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              Text('Delivery address', style: AppTypography.labelBold),
+              TextButton.icon(
+                icon: const Icon(Icons.add, size: 18),
+                label: const Text('Add New'),
+                onPressed: _openAddAddressModal,
+              ),
+            ],
+          ),
           const SizedBox(height: AppSpacing.xs),
           addresses.when(
             data: (List<Address> items) {
               if (items.isEmpty) {
-                return const Text('No saved addresses yet. Add one to continue.');
+                return Card(
+                  elevation: 0,
+                  color: AppColors.surfaceContainerLow,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(AppRadius.card),
+                    side: BorderSide(color: AppColors.outline.withValues(alpha: 0.2)),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(AppSpacing.md),
+                    child: Column(
+                      children: <Widget>[
+                        const Icon(
+                          Icons.location_on_outlined,
+                          size: 38,
+                          color: AppColors.primary,
+                        ),
+                        const SizedBox(height: AppSpacing.xs),
+                        Text('No saved addresses yet', style: AppTypography.bodyLgBold),
+                        const SizedBox(height: AppSpacing.xs),
+                        Text(
+                          'Add a delivery address to complete your order',
+                          style: AppTypography.bodyMd.copyWith(fontSize: 13),
+                          textAlign: TextAlign.center,
+                        ),
+                        const SizedBox(height: AppSpacing.sm),
+                        OutlinedButton.icon(
+                          icon: const Icon(Icons.add),
+                          label: const Text('ADD ADDRESS'),
+                          onPressed: _openAddAddressModal,
+                        ),
+                      ],
+                    ),
+                  ),
+                );
               }
               return RadioGroup<String>(
                 groupValue: _addressId,
                 onChanged: (String? value) => setState(() => _addressId = value),
                 child: Column(
                   children: items
-                      .map((Address address) => RadioListTile<String>(
-                            value: address.id,
-                            title: Text(address.recipientName),
-                            subtitle: Text(address.formatted),
+                      .map((Address address) => Container(
+                            margin: const EdgeInsets.only(bottom: AppSpacing.xs),
+                            decoration: BoxDecoration(
+                              color: AppColors.surfaceContainerLowest,
+                              borderRadius: BorderRadius.circular(AppRadius.md),
+                              border: Border.all(
+                                color: _addressId == address.id
+                                    ? AppColors.primary
+                                    : AppColors.outline.withValues(alpha: 0.15),
+                                width: _addressId == address.id ? 1.5 : 1.0,
+                              ),
+                            ),
+                            child: RadioListTile<String>(
+                              value: address.id,
+                              title: Row(
+                                children: <Widget>[
+                                  Expanded(
+                                    child: Text(
+                                      address.recipientName,
+                                      style: AppTypography.bodyMdBold,
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                  ),
+                                  if (address.isDefault) ...<Widget>[
+                                    const SizedBox(width: AppSpacing.xs),
+                                    Container(
+                                      padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                                      decoration: BoxDecoration(
+                                        color: AppColors.primaryContainer,
+                                        borderRadius: BorderRadius.circular(AppRadius.sm),
+                                      ),
+                                      child: Text(
+                                        'DEFAULT',
+                                        style: AppTypography.bodyMd.copyWith(
+                                          fontSize: 10,
+                                          fontWeight: FontWeight.bold,
+                                          color: AppColors.onPrimaryContainer,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ],
+                              ),
+                              subtitle: Padding(
+                                padding: const EdgeInsets.only(top: 4),
+                                child: Text(
+                                  '${address.formatted}\nPhone: +${address.recipientPhone}',
+                                  style: AppTypography.bodyMd.copyWith(fontSize: 13),
+                                ),
+                              ),
+                            ),
                           ))
                       .toList(),
                 ),

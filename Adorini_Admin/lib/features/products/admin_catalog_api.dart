@@ -52,7 +52,11 @@ class AdminBrand {
 }
 
 class AdminProduct {
-  const AdminProduct({required this.id, required this.slug, required this.name});
+  const AdminProduct({
+    required this.id,
+    required this.slug,
+    required this.name,
+  });
 
   factory AdminProduct.fromJson(Map<String, dynamic> json) {
     return AdminProduct(
@@ -70,7 +74,11 @@ class AdminProduct {
 /// One image the caller selected to upload, already read into memory —
 /// `file_picker` hands back bytes directly, no separate File I/O step.
 class PickedImage {
-  const PickedImage({required this.bytes, required this.filename, required this.mimeType});
+  const PickedImage({
+    required this.bytes,
+    required this.filename,
+    required this.mimeType,
+  });
 
   final Uint8List bytes;
   final String filename;
@@ -105,7 +113,10 @@ class AdminCatalogApi {
   /// Used as the "is this account actually staff?" probe right after login —
   /// any admin route works for this, this one is just the cheapest.
   Future<void> assertAdmin() async {
-    await _dio.get<dynamic>(ApiConstants.adminProducts, queryParameters: <String, int>{'limit': 1});
+    await _dio.get<dynamic>(
+      ApiConstants.adminProducts,
+      queryParameters: <String, int>{'limit': 1},
+    );
   }
 
   Future<List<AdminCategory>> listCategories() async {
@@ -113,7 +124,10 @@ class AdminCatalogApi {
       ApiConstants.adminCategories,
     );
     return response.data!
-        .map((dynamic json) => AdminCategory.fromJson(json as Map<String, dynamic>))
+        .map(
+          (dynamic json) =>
+              AdminCategory.fromJson(json as Map<String, dynamic>),
+        )
         .toList();
   }
 
@@ -122,7 +136,9 @@ class AdminCatalogApi {
       ApiConstants.adminBrands,
     );
     return response.data!
-        .map((dynamic json) => AdminBrand.fromJson(json as Map<String, dynamic>))
+        .map(
+          (dynamic json) => AdminBrand.fromJson(json as Map<String, dynamic>),
+        )
         .toList();
   }
 
@@ -137,20 +153,22 @@ class AdminCatalogApi {
     required String fabricType,
     String? printTechnique,
   }) async {
-    final Response<Map<String, dynamic>> response = await _dio.post<Map<String, dynamic>>(
-      ApiConstants.adminProducts,
-      data: <String, dynamic>{
-        'slug': slug,
-        'name': name,
-        if (description != null && description.isNotEmpty) 'description': description,
-        'categoryId': categoryId,
-        'brandId': brandId,
-        'pricePaise': pricePaise,
-        if (compareAtPricePaise != null) 'compareAtPricePaise': compareAtPricePaise,
-        'fabricType': fabricType,
-        if (printTechnique != null) 'printTechnique': printTechnique,
-      },
-    );
+    final Response<Map<String, dynamic>> response = await _dio
+        .post<Map<String, dynamic>>(
+          ApiConstants.adminProducts,
+          data: <String, dynamic>{
+            'slug': slug,
+            'name': name,
+            if (description != null && description.isNotEmpty)
+              'description': description,
+            'categoryId': categoryId,
+            'brandId': brandId,
+            'pricePaise': pricePaise,
+            'compareAtPricePaise': ?compareAtPricePaise,
+            'fabricType': fabricType,
+            'printTechnique': ?printTechnique,
+          },
+        );
     return AdminProduct.fromJson(response.data!);
   }
 
@@ -171,7 +189,10 @@ class AdminCatalogApi {
   /// Uploads gallery images for a product, in list order — the first image
   /// ever uploaded for a product becomes its catalog thumbnail
   /// (`AdminCatalogService.attachProductMedia`, `displayOrder: 0`).
-  Future<void> uploadProductMedia(String productId, List<PickedImage> images) async {
+  Future<void> uploadProductMedia(
+    String productId,
+    List<PickedImage> images,
+  ) async {
     if (images.isEmpty) return;
 
     final FormData form = FormData();
@@ -188,6 +209,9 @@ class AdminCatalogApi {
       );
     }
 
-    await _dio.post<List<dynamic>>(ApiConstants.adminProductMedia(productId), data: form);
+    await _dio.post<List<dynamic>>(
+      ApiConstants.adminProductMedia(productId),
+      data: form,
+    );
   }
 }

@@ -10,6 +10,7 @@ import '../../../auth/data/auth_api.dart';
 import '../../../auth/domain/auth_controller.dart';
 import '../../domain/account_providers.dart';
 import '../profile_initial.dart';
+import '../widgets/saved_addresses_sheet.dart';
 
 class ProfileScreen extends ConsumerWidget {
   const ProfileScreen({super.key});
@@ -43,6 +44,7 @@ class ProfileScreen extends ConsumerWidget {
           const SizedBox(height: AppSpacing.lg),
           _QuickActions(
             onEditProfile: () => context.push('/profile/edit'),
+            onSavedAddress: () => SavedAddressesSheet.show(context),
             onUnavailable: (String label) => _showComingSoon(context, label),
           ),
           const SizedBox(height: AppSpacing.md),
@@ -194,10 +196,12 @@ class _AccountHeader extends StatelessWidget {
 class _QuickActions extends StatelessWidget {
   const _QuickActions({
     required this.onEditProfile,
+    required this.onSavedAddress,
     required this.onUnavailable,
   });
 
   final VoidCallback onEditProfile;
+  final VoidCallback onSavedAddress;
   final ValueChanged<String> onUnavailable;
 
   @override
@@ -222,11 +226,15 @@ class _QuickActions extends StatelessWidget {
                 child: _QuickAction(
                   icon: action.icon,
                   label: action.label,
-                  onTap: action == actions.first
-                      ? onEditProfile
-                      : () => onUnavailable(
-                            action.label.replaceAll('\n', ' '),
-                          ),
+                  onTap: () {
+                    if (action == actions[0]) {
+                      onEditProfile();
+                    } else if (action == actions[1]) {
+                      onSavedAddress();
+                    } else {
+                      onUnavailable(action.label.replaceAll('\n', ' '));
+                    }
+                  },
                 ),
               ),
             ),
