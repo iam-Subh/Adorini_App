@@ -53,6 +53,7 @@ describe('AdminCatalogService', () => {
     brandId: '00000000-0000-0000-0000-0000000000b1',
     pricePaise: 89_900,
     fabricType: FabricType.RIGID,
+    isFreeSize: false,
     isActive: true,
   });
 
@@ -216,6 +217,16 @@ describe('AdminCatalogService', () => {
       brandsCountBy.mockResolvedValue(0);
 
       await expect(service.createProduct(baseDto())).rejects.toThrow(/Unknown brand/);
+    });
+
+    it('accepts a product without a brandId since brands left the storefront', async () => {
+      const { brandId: _unused, ...withoutBrand } = baseDto();
+
+      await expect(service.createProduct(withoutBrand)).resolves.toMatchObject({
+        brandId: null,
+        isFreeSize: false,
+      });
+      expect(brandsCountBy).not.toHaveBeenCalled();
     });
   });
 

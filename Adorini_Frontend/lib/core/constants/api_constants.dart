@@ -75,6 +75,8 @@ class ApiConstants {
   static const String addresses = '/users/me/addresses';
   static String address(String id) => '/users/me/addresses/$id';
   static String defaultAddress(String id) => '/users/me/addresses/$id/default';
+  static const String wishlist = '/users/me/wishlist';
+  static String wishlistItem(String productId) => '/users/me/wishlist/$productId';
 
   // ---- videos (public) ----
   static const String videos = '/videos';

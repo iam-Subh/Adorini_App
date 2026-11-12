@@ -21,6 +21,7 @@ import { Video } from './video.entity';
 import { VideoProductTag } from './video-product-tag.entity';
 import { Wallet } from './wallet.entity';
 import { WalletTransaction } from './wallet-transaction.entity';
+import { WishlistItem } from './wishlist-item.entity';
 
 export * from './base.entity';
 export * from './address.entity';
@@ -46,6 +47,7 @@ export * from './video.entity';
 export * from './video-product-tag.entity';
 export * from './wallet.entity';
 export * from './wallet-transaction.entity';
+export * from './wishlist-item.entity';
 
 /**
  * Explicit registry rather than a glob.
@@ -80,4 +82,5 @@ export const ENTITIES = [
   VideoProductTag,
   Wallet,
   WalletTransaction,
+  WishlistItem,
 ];

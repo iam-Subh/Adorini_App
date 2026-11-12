@@ -9,7 +9,17 @@ import '../../core/network/dio_client.dart';
 import 'admin_catalog_api.dart';
 
 const List<String> _fabricTypes = <String>['STRETCH', 'RIGID'];
-const List<String> _printTechniques = <String>['KALANKARI', 'AJRAK', 'BATIK', 'APLIK', 'FANCY'];
+const List<String> _printTechniques = <String>[
+  'KALANKARI',
+  'AJRAK',
+  'BATIK',
+  'APLIK',
+  'BANDHANI',
+  'IKAT',
+  'PATCHWORK',
+  'FANCY',
+];
+const List<int> _stockedSizes = <int>[40, 42, 44, 46];
 
 class _VariantRow {
   String sku = '';
@@ -45,6 +55,8 @@ class _AddProductScreenState extends ConsumerState<AddProductScreen> {
   String? _brandId;
   String _fabricType = _fabricTypes.first;
   String? _printTechnique;
+  bool _isFreeSize = false;
+  int? _pieces;
 
   final List<_VariantRow> _variants = <_VariantRow>[_VariantRow()];
   final List<PickedImage> _images = <PickedImage>[];
@@ -160,8 +172,8 @@ class _AddProductScreenState extends ConsumerState<AddProductScreen> {
 
     if (!(_formKey.currentState?.validate() ?? false)) return;
 
-    if (_categoryId == null || _brandId == null) {
-      setState(() => _submitError = 'Pick a category and a brand.');
+    if (_categoryId == null) {
+      setState(() => _submitError = 'Pick a category.');
       return;
     }
     if (_variants.any((_VariantRow v) => v.sku.trim().isEmpty || v.colour.trim().isEmpty)) {
@@ -182,11 +194,13 @@ class _AddProductScreenState extends ConsumerState<AddProductScreen> {
         name: _nameController.text.trim(),
         description: _descriptionController.text.trim(),
         categoryId: _categoryId!,
-        brandId: _brandId!,
+        brandId: _brandId,
         pricePaise: pricePaise,
         compareAtPricePaise: compareAtPricePaise,
         fabricType: _fabricType,
         printTechnique: _printTechnique,
+        isFreeSize: _isFreeSize,
+        pieces: _pieces,
       );
 
       for (final _VariantRow variant in _variants) {
@@ -194,7 +208,7 @@ class _AddProductScreenState extends ConsumerState<AddProductScreen> {
           product.id,
           VariantInput(
             sku: variant.sku.trim(),
-            nominalSize: variant.nominalSize,
+            nominalSize: _isFreeSize ? 40 : variant.nominalSize,
             colour: variant.colour.trim(),
             stockQuantity: variant.stockQuantity,
           ),
@@ -231,6 +245,8 @@ class _AddProductScreenState extends ConsumerState<AddProductScreen> {
     _priceController.clear();
     _compareAtPriceController.clear();
     _slugEdited = false;
+    _isFreeSize = false;
+    _pieces = null;
     _variants
       ..clear()
       ..add(_VariantRow());
@@ -308,20 +324,44 @@ class _AddProductScreenState extends ConsumerState<AddProductScreen> {
                           onChanged: (String? v) => setState(() => _categoryId = v),
                           validator: (String? v) => v == null ? 'Required' : null,
                         ),
-                        const SizedBox(height: 12),
-                        DropdownButtonFormField<String>(
-                          initialValue: _brandId,
-                          decoration: const InputDecoration(labelText: 'Brand'),
-                          items: _brands
-                              .map(
-                                (AdminBrand b) => DropdownMenuItem<String>(
+                        if (_brands.isNotEmpty) ...<Widget>[
+                          const SizedBox(height: 12),
+                          DropdownButtonFormField<String?>(
+                            initialValue: _brandId,
+                            decoration: const InputDecoration(labelText: 'Supplier / Brand (optional)'),
+                            items: <DropdownMenuItem<String?>>[
+                              const DropdownMenuItem<String?>(value: null, child: Text('None')),
+                              ..._brands.map(
+                                (AdminBrand b) => DropdownMenuItem<String?>(
                                   value: b.id,
                                   child: Text(b.isActive ? b.name : '${b.name} (inactive)'),
                                 ),
-                              )
-                              .toList(),
-                          onChanged: (String? v) => setState(() => _brandId = v),
-                          validator: (String? v) => v == null ? 'Required' : null,
+                              ),
+                            ],
+                            onChanged: (String? v) => setState(() => _brandId = v),
+                          ),
+                        ],
+                        const SizedBox(height: 12),
+                        DropdownButtonFormField<int?>(
+                          initialValue: _pieces,
+                          decoration: const InputDecoration(
+                            labelText: 'Pieces in set (optional — leave blank for bottoms)',
+                          ),
+                          items: const <DropdownMenuItem<int?>>[
+                            DropdownMenuItem<int?>(value: null, child: Text('Not applicable (Bottom wear)')),
+                            DropdownMenuItem<int?>(value: 1, child: Text('1 Piece')),
+                            DropdownMenuItem<int?>(value: 2, child: Text('2 Pieces')),
+                            DropdownMenuItem<int?>(value: 3, child: Text('3 Pieces')),
+                          ],
+                          onChanged: (int? v) => setState(() => _pieces = v),
+                        ),
+                        const SizedBox(height: 8),
+                        SwitchListTile(
+                          contentPadding: EdgeInsets.zero,
+                          title: const Text('Free size product'),
+                          subtitle: const Text('One size fits all (uses placeholder size 40 per colour)'),
+                          value: _isFreeSize,
+                          onChanged: (bool v) => setState(() => _isFreeSize = v),
                         ),
                         const SizedBox(height: 12),
                         Row(
@@ -479,18 +519,20 @@ class _AddProductScreenState extends ConsumerState<AddProductScreen> {
                     onChanged: (String v) => variant.sku = v,
                   ),
                 ),
-                const SizedBox(width: 8),
-                SizedBox(
-                  width: 90,
-                  child: DropdownButtonFormField<int>(
-                    initialValue: variant.nominalSize,
-                    decoration: const InputDecoration(labelText: 'Size'),
-                    items: <int>[40, 42, 44, 46, 48]
-                        .map((int s) => DropdownMenuItem<int>(value: s, child: Text('$s')))
-                        .toList(),
-                    onChanged: (int? v) => variant.nominalSize = v ?? variant.nominalSize,
+                if (!_isFreeSize) ...<Widget>[
+                  const SizedBox(width: 8),
+                  SizedBox(
+                    width: 90,
+                    child: DropdownButtonFormField<int>(
+                      initialValue: variant.nominalSize,
+                      decoration: const InputDecoration(labelText: 'Size'),
+                      items: _stockedSizes
+                          .map((int s) => DropdownMenuItem<int>(value: s, child: Text('$s')))
+                          .toList(),
+                      onChanged: (int? v) => variant.nominalSize = v ?? variant.nominalSize,
+                    ),
                   ),
-                ),
+                ],
               ],
             ),
             const SizedBox(height: 8),

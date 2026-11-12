@@ -24,6 +24,10 @@ Thumbs.db
 Adorini_Frontend/env/local.json
 # Machine- and session-specific backend URLs (e.g. a temporary tunnel address).
 **/env/tunnel.json
+connect.ps1
+connect.bat
+Adorini_Frontend/connect.ps1
+Adorini_Frontend/connect.bat
 
 # Dependencies and Build Outputs
 node_modules/

@@ -7,6 +7,7 @@ import '../../../../core/network/api_error.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_theme.dart';
 import '../../../../core/theme/app_typography.dart';
+import '../../../auth/domain/auth_controller.dart';
 import '../../data/catalog_api.dart';
 import '../../data/product_model.dart';
 import '../../domain/catalog_providers.dart';
@@ -193,6 +194,7 @@ class _ProductListScreenState extends ConsumerState<ProductListScreen> {
         ref.watch(homeFeedProvider).valueOrNull ?? <ProductSummary>[];
     final List<Category> categories =
         ref.watch(categoriesProvider).valueOrNull ?? <Category>[];
+    final Set<String> wishlistIds = ref.watch(wishlistIdsProvider);
 
     return Scaffold(
       backgroundColor: AppColors.surfaceContainerLow,
@@ -295,6 +297,19 @@ class _ProductListScreenState extends ConsumerState<ProductListScreen> {
                                 final ProductSummary product = items[index];
                                 return ProductCard(
                                   product: product,
+                                  isWishlisted:
+                                      wishlistIds.contains(product.id),
+                                  onWishlistToggle: () {
+                                    if (!ref
+                                        .read(authControllerProvider)
+                                        .isAuthenticated) {
+                                      context.push('/onboarding');
+                                      return;
+                                    }
+                                    ref
+                                        .read(wishlistProvider.notifier)
+                                        .toggle(product.id);
+                                  },
                                   onTap: () => context.push(
                                     '/catalog/product/${product.slug}',
                                   ),

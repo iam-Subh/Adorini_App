@@ -10,3 +10,8 @@ final FutureProviderFamily<ProductDetail, String> productDetailProvider =
     FutureProvider.family<ProductDetail, String>(
   (Ref ref, String slug) => ref.watch(pdpApiProvider).getProductDetail(slug),
 );
+
+final FutureProviderFamily<ReviewPage, String> productReviewsProvider =
+    FutureProvider.family<ReviewPage, String>(
+  (Ref ref, String slug) => ref.watch(pdpApiProvider).listReviews(slug),
+);

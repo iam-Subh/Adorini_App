@@ -104,6 +104,79 @@ class ReviewSummary {
   }
 }
 
+class MeasurementRange {
+  const MeasurementRange({required this.minCm, required this.maxCm});
+
+  factory MeasurementRange.fromJson(Map<String, dynamic> json) {
+    return MeasurementRange(
+      minCm: json['minCm'] as int,
+      maxCm: json['maxCm'] as int,
+    );
+  }
+
+  final int minCm;
+  final int maxCm;
+
+  String get formatted => minCm == maxCm ? '$minCm' : '$minCm–$maxCm';
+}
+
+class SizeChartRow {
+  const SizeChartRow({
+    required this.nominalSize,
+    required this.bust,
+    required this.waist,
+    required this.hip,
+    required this.garmentLengthCm,
+    required this.fitAdvice,
+  });
+
+  factory SizeChartRow.fromJson(Map<String, dynamic> json) {
+    return SizeChartRow(
+      nominalSize: json['nominalSize'] as int,
+      bust: MeasurementRange.fromJson(json['bust'] as Map<String, dynamic>),
+      waist: MeasurementRange.fromJson(json['waist'] as Map<String, dynamic>),
+      hip: MeasurementRange.fromJson(json['hip'] as Map<String, dynamic>),
+      garmentLengthCm: json['garmentLengthCm'] as int,
+      fitAdvice: json['fitAdvice'] as String,
+    );
+  }
+
+  final int nominalSize;
+  final MeasurementRange bust;
+  final MeasurementRange waist;
+  final MeasurementRange hip;
+  final int garmentLengthCm;
+  final String fitAdvice;
+}
+
+class SizeChart {
+  const SizeChart({
+    required this.fabricType,
+    required this.stretches,
+    required this.measurementNote,
+    required this.rows,
+    this.guidanceNote,
+  });
+
+  factory SizeChart.fromJson(Map<String, dynamic> json) {
+    return SizeChart(
+      fabricType: FabricType.fromWire(json['fabricType'] as String),
+      stretches: json['stretches'] as bool,
+      guidanceNote: json['guidanceNote'] as String?,
+      measurementNote: json['measurementNote'] as String,
+      rows: (json['rows'] as List<dynamic>? ?? <dynamic>[])
+          .map((dynamic e) => SizeChartRow.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  final FabricType fabricType;
+  final bool stretches;
+  final String? guidanceNote;
+  final String measurementNote;
+  final List<SizeChartRow> rows;
+}
+
 class ProductDetail {
   const ProductDetail({
     required this.id,
@@ -118,6 +191,8 @@ class ProductDetail {
     required this.officialMedia,
     required this.buyerMedia,
     required this.reviewSummary,
+    this.isFreeSize = false,
+    this.pieces,
     this.description,
     this.compareAtPricePaise,
     this.printTechnique,
@@ -130,6 +205,9 @@ class ProductDetail {
             .map((dynamic e) => MediaItem.fromJson(e as Map<String, dynamic>))
             .toList();
 
+    final Map<String, dynamic>? rawChart =
+        json['sizeChart'] as Map<String, dynamic>?;
+
     return ProductDetail(
       id: json['id'] as String,
       slug: json['slug'] as String,
@@ -140,6 +218,8 @@ class ProductDetail {
       fabricType: FabricType.fromWire(json['fabricType'] as String),
       printTechnique:
           PrintTechnique.fromWire(json['printTechnique'] as String?),
+      isFreeSize: json['isFreeSize'] as bool? ?? false,
+      pieces: json['pieces'] as int?,
       categoryName:
           (json['category'] as Map<String, dynamic>)['name'] as String,
       variants: (json['variants'] as List<dynamic>? ?? <dynamic>[])
@@ -155,7 +235,7 @@ class ProductDetail {
       buyerMedia: media('buyerMedia'),
       // Null when the product has no chart, or a malformed one — the UI falls
       // back to the size-enquiry form.
-      sizeChart: json['sizeChart'] as Map<String, dynamic>?,
+      sizeChart: rawChart == null ? null : SizeChart.fromJson(rawChart),
       reviewSummary:
           ReviewSummary.fromJson(json['reviewSummary'] as Map<String, dynamic>),
     );
@@ -169,13 +249,15 @@ class ProductDetail {
   final int? compareAtPricePaise;
   final FabricType fabricType;
   final PrintTechnique? printTechnique;
+  final bool isFreeSize;
+  final int? pieces;
   final String categoryName;
   final List<ProductVariant> variants;
   final List<int> availableSizes;
   final List<String> availableColours;
   final List<MediaItem> officialMedia;
   final List<MediaItem> buyerMedia;
-  final Map<String, dynamic>? sizeChart;
+  final SizeChart? sizeChart;
   final ReviewSummary reviewSummary;
 
   bool get isDiscounted =>
@@ -183,14 +265,74 @@ class ProductDetail {
 
   /// The variant to add to the cart for a chosen size/colour, or null if that
   /// combination is not stocked.
-  ProductVariant? variantFor({required int size, String? colour}) {
+  ProductVariant? variantFor({int? size, String? colour}) {
     for (final ProductVariant v in variants) {
-      if (v.nominalSize == size && (colour == null || v.colour == colour)) {
+      final bool sizeMatches =
+          isFreeSize || (size != null && v.nominalSize == size);
+      final bool colourMatches =
+          colour == null || availableColours.length <= 1 || v.colour == colour;
+      if (sizeMatches && colourMatches) {
         return v;
       }
     }
     return null;
   }
+}
+
+class ReviewItem {
+  const ReviewItem({
+    required this.id,
+    required this.rating,
+    required this.isVerifiedPurchase,
+    required this.createdAt,
+    required this.media,
+    this.body,
+    this.fitTag,
+    this.purchasedNominalSize,
+    this.reviewerName,
+  });
+
+  factory ReviewItem.fromJson(Map<String, dynamic> json) {
+    return ReviewItem(
+      id: json['id'] as String,
+      rating: json['rating'] as int,
+      body: json['body'] as String?,
+      fitTag: FitTag.fromWire(json['fitTag'] as String?),
+      purchasedNominalSize: json['purchasedNominalSize'] as int?,
+      isVerifiedPurchase: json['isVerifiedPurchase'] as bool? ?? false,
+      reviewerName: json['reviewerName'] as String?,
+      createdAt: DateTime.parse(json['createdAt'] as String),
+      media: (json['media'] as List<dynamic>? ?? <dynamic>[])
+          .map((dynamic e) => MediaItem.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  final String id;
+  final int rating;
+  final String? body;
+  final FitTag? fitTag;
+  final int? purchasedNominalSize;
+  final bool isVerifiedPurchase;
+  final String? reviewerName;
+  final DateTime createdAt;
+  final List<MediaItem> media;
+}
+
+class ReviewPage {
+  const ReviewPage({required this.items, this.nextCursor});
+
+  factory ReviewPage.fromJson(Map<String, dynamic> json) {
+    return ReviewPage(
+      items: (json['items'] as List<dynamic>? ?? <dynamic>[])
+          .map((dynamic e) => ReviewItem.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextCursor: json['nextCursor'] as String?,
+    );
+  }
+
+  final List<ReviewItem> items;
+  final String? nextCursor;
 }
 
 class SizeEnquiryResult {
@@ -241,5 +383,45 @@ class PdpApi {
       },
     );
     return SizeEnquiryResult.fromJson(response.data!);
+  }
+
+  Future<ReviewPage> listReviews(
+    String slug, {
+    FitTag? fitTag,
+    String? cursor,
+    int limit = 10,
+  }) async {
+    final Response<Map<String, dynamic>> response =
+        await _dio.get<Map<String, dynamic>>(
+      ApiConstants.productReviews(slug),
+      queryParameters: <String, dynamic>{
+        if (fitTag != null) 'fitTag': fitTag.wire,
+        if (cursor != null) 'cursor': cursor,
+        'limit': limit,
+      },
+    );
+    return ReviewPage.fromJson(response.data!);
+  }
+
+  Future<ReviewItem> createReview({
+    required String slug,
+    required int rating,
+    String? body,
+    FitTag? fitTag,
+    int? purchasedNominalSize,
+  }) async {
+    final FormData formData = FormData.fromMap(<String, dynamic>{
+      'rating': rating.toString(),
+      if (body != null && body.trim().isNotEmpty) 'body': body.trim(),
+      if (fitTag != null) 'fitTag': fitTag.wire,
+      if (purchasedNominalSize != null)
+        'purchasedNominalSize': purchasedNominalSize.toString(),
+    });
+    final Response<Map<String, dynamic>> response =
+        await _dio.post<Map<String, dynamic>>(
+      ApiConstants.productReviews(slug),
+      data: formData,
+    );
+    return ReviewItem.fromJson(response.data!);
   }
 }

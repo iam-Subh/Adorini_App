@@ -79,17 +79,20 @@ export class AdminCatalogService {
   }
 
   async createProduct(dto: CreateProductDto) {
-    await this.assertCategoryAndBrandExist(dto.categoryId, dto.brandId);
+    await this.assertCategoryAndBrandExist(dto.categoryId, dto.brandId ?? undefined);
     this.assertSizeRulesMatchFabric(dto.sizeRules ?? null, dto.fabricType);
 
     try {
       const saved = await this.products.save(
         this.products.create({
           ...dto,
+          brandId: dto.brandId ?? null,
           description: dto.description ?? null,
           compareAtPricePaise: dto.compareAtPricePaise ?? null,
           printTechnique: dto.printTechnique ?? null,
           sizeRules: dto.sizeRules ?? null,
+          isFreeSize: dto.isFreeSize ?? false,
+          pieces: dto.pieces ?? null,
         }),
       );
 
@@ -387,11 +390,13 @@ export class AdminCatalogService {
       slug: product.slug,
       name: product.name,
       categoryId: product.categoryId,
-      brandId: product.brandId,
+      brandId: product.brandId ?? null,
       pricePaise: product.pricePaise,
       compareAtPricePaise: product.compareAtPricePaise,
       fabricType: product.fabricType,
       printTechnique: product.printTechnique,
+      isFreeSize: product.isFreeSize ?? false,
+      pieces: product.pieces ?? null,
       isActive: product.isActive,
       hasSizeChart: product.sizeRules !== null,
       variantCount,

@@ -1,6 +1,8 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/network/dio_client.dart';
+import '../../auth/domain/auth_controller.dart';
+import '../../auth/domain/auth_state.dart';
 import '../data/catalog_api.dart';
 import '../data/product_model.dart';
 
@@ -59,7 +61,39 @@ class ProductListController extends AsyncNotifier<List<ProductSummary>> {
   }
 }
 
-final Provider<AsyncValue<List<ProductSummary>>> wishlistProvider =
-    Provider<AsyncValue<List<ProductSummary>>>(
-  (Ref ref) => const AsyncData<List<ProductSummary>>(<ProductSummary>[]),
-);
+final AsyncNotifierProvider<WishlistController, List<ProductSummary>> wishlistProvider =
+    AsyncNotifierProvider<WishlistController, List<ProductSummary>>(WishlistController.new);
+
+/// Fast O(1) lookup set of wishlisted product IDs for [ProductCard] and [PdpScreen].
+final Provider<Set<String>> wishlistIdsProvider = Provider<Set<String>>((Ref ref) {
+  final AsyncValue<List<ProductSummary>> wishlist = ref.watch(wishlistProvider);
+  final List<ProductSummary>? items = wishlist.valueOrNull;
+  if (items == null) return const <String>{};
+  return items.map((ProductSummary p) => p.id).toSet();
+});
+
+class WishlistController extends AsyncNotifier<List<ProductSummary>> {
+  @override
+  Future<List<ProductSummary>> build() async {
+    final bool isAuthenticated = ref.watch(
+      authControllerProvider.select((AuthState s) => s.isAuthenticated),
+    );
+    if (!isAuthenticated) {
+      return const <ProductSummary>[];
+    }
+    return ref.read(catalogApiProvider).listWishlist();
+  }
+
+  /// Toggles [productId] in the signed-in user's wishlist. Returns `true` if
+  /// the item is now saved, or `false` if it was removed.
+  Future<bool> toggle(String productId) async {
+    final List<ProductSummary> current = state.valueOrNull ?? const <ProductSummary>[];
+    final bool wasSaved = current.any((ProductSummary p) => p.id == productId);
+    final CatalogApi api = ref.read(catalogApiProvider);
+    final List<ProductSummary> updated = wasSaved
+        ? await api.removeFromWishlist(productId)
+        : await api.addToWishlist(productId);
+    state = AsyncData<List<ProductSummary>>(updated);
+    return !wasSaved;
+  }
+}

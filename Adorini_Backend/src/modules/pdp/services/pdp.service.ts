@@ -122,6 +122,8 @@ export class PdpService {
       compareAtPricePaise: product.compareAtPricePaise,
       fabricType: product.fabricType,
       printTechnique: product.printTechnique,
+      isFreeSize: product.isFreeSize ?? false,
+      pieces: product.pieces ?? null,
       category: { slug: product.category.slug, name: product.category.name },
       // Null since brands left the storefront; the PDP simply omits the line.
       brand: product.brand ? { slug: product.brand.slug, name: product.brand.name } : null,

@@ -147,11 +147,13 @@ class AdminCatalogApi {
     required String name,
     String? description,
     required String categoryId,
-    required String brandId,
+    String? brandId,
     required int pricePaise,
     int? compareAtPricePaise,
     required String fabricType,
     String? printTechnique,
+    bool isFreeSize = false,
+    int? pieces,
   }) async {
     final Response<Map<String, dynamic>> response = await _dio
         .post<Map<String, dynamic>>(
@@ -162,11 +164,13 @@ class AdminCatalogApi {
             if (description != null && description.isNotEmpty)
               'description': description,
             'categoryId': categoryId,
-            'brandId': brandId,
+            'brandId': ?brandId,
             'pricePaise': pricePaise,
             'compareAtPricePaise': ?compareAtPricePaise,
             'fabricType': fabricType,
             'printTechnique': ?printTechnique,
+            'isFreeSize': isFreeSize,
+            'pieces': ?pieces,
           },
         );
     return AdminProduct.fromJson(response.data!);

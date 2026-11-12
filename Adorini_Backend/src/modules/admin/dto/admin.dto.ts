@@ -27,12 +27,14 @@ export const createProductSchema = z.object({
   name: z.string().trim().min(1).max(200),
   description: z.string().trim().max(5000).nullable().optional(),
   categoryId: z.uuid(),
-  brandId: z.uuid(),
+  brandId: z.uuid().nullable().optional(),
   pricePaise: z.number().int().positive(),
   compareAtPricePaise: z.number().int().positive().nullable().optional(),
   fabricType: z.enum(FabricType),
   printTechnique: z.enum(PrintTechnique).nullable().optional(),
   sizeRules: sizeRulesSchema.nullable().optional(),
+  isFreeSize: z.boolean().optional().default(false),
+  pieces: z.number().int().min(1).max(3).nullable().optional(),
   isActive: z.boolean().optional().default(true),
 });
 
@@ -41,8 +43,8 @@ export const updateProductSchema = createProductSchema.partial();
 export const createVariantSchema = z.object({
   productId: z.uuid(),
   sku: z.string().trim().min(1).max(64),
-  /** Mirrors `chk_variant_nominal_size_range` — the stocked band. */
-  nominalSize: z.number().int().min(40).max(48),
+  /** Mirrors `chk_variant_nominal_size_range` — the stocked band (32–46). */
+  nominalSize: z.number().int().min(32).max(46),
   colour: z.string().trim().min(1).max(64),
   /** Null means "use the product's price", which is the common case. */
   pricePaise: z.number().int().positive().nullable().optional(),
@@ -85,11 +87,13 @@ export const adminProductSchema = z.object({
   slug: z.string(),
   name: z.string(),
   categoryId: z.uuid(),
-  brandId: z.uuid(),
+  brandId: z.uuid().nullable(),
   pricePaise: z.number().int(),
   compareAtPricePaise: z.number().int().nullable(),
   fabricType: z.enum(FabricType),
   printTechnique: z.enum(PrintTechnique).nullable(),
+  isFreeSize: z.boolean(),
+  pieces: z.number().int().nullable(),
   isActive: z.boolean(),
   hasSizeChart: z.boolean(),
   variantCount: z.number().int(),

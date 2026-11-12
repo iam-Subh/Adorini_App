@@ -44,7 +44,7 @@ export const createReviewSchema = z.object({
   body: z.string().trim().max(2000).optional(),
   fitTag: z.enum(FitTag).optional(),
   /** The size actually bought — a fit tag is meaningless without it. */
-  purchasedNominalSize: z.coerce.number().int().min(40).max(48).optional(),
+  purchasedNominalSize: z.coerce.number().int().min(32).max(46).optional(),
 });
 
 export class CreateReviewDto extends createZodDto(createReviewSchema) {}

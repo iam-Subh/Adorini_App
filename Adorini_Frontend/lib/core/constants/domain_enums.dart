@@ -64,10 +64,13 @@ enum FabricType {
 }
 
 enum PrintTechnique {
-  kalankari('KALANKARI', 'Kalankari'),
+  kalankari('KALANKARI', 'Kalamkari'),
   ajrak('AJRAK', 'Ajrak'),
   batik('BATIK', 'Batik'),
   aplik('APLIK', 'Aplik'),
+  bandhani('BANDHANI', 'Bandhani'),
+  ikat('IKAT', 'Ikat'),
+  patchwork('PATCHWORK', 'Patchwork'),
   fancy('FANCY', 'Fancy');
 
   const PrintTechnique(this.wire, this.label);

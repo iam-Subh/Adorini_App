@@ -24,6 +24,7 @@ class _FilterBottomSheetState extends ConsumerState<FilterBottomSheet> {
   late String? _category;
   late int? _size;
   late FabricType? _fabricType;
+  late PrintTechnique? _printTechnique;
   late CatalogSort _sort;
 
   @override
@@ -33,6 +34,7 @@ class _FilterBottomSheetState extends ConsumerState<FilterBottomSheet> {
     _category = _initialFilters.category;
     _size = _initialFilters.size;
     _fabricType = _initialFilters.fabricType;
+    _printTechnique = _initialFilters.printTechnique;
     _sort = _initialFilters.sort;
   }
 
@@ -41,7 +43,7 @@ class _FilterBottomSheetState extends ConsumerState<FilterBottomSheet> {
       category: _category,
       size: _size,
       fabricType: _fabricType,
-      printTechnique: _initialFilters.printTechnique,
+      printTechnique: _printTechnique,
       minPricePaise: _initialFilters.minPricePaise,
       maxPricePaise: _initialFilters.maxPricePaise,
       query: _initialFilters.query,
@@ -134,6 +136,21 @@ class _FilterBottomSheetState extends ConsumerState<FilterBottomSheet> {
                         selected: _size == size,
                         onSelected: (bool selected) => setState(
                           () => _size = selected ? size : null,
+                        ),
+                      );
+                    }).toList(),
+                  ),
+                  const SizedBox(height: AppSpacing.md),
+                  Text('Craft / Print', style: AppTypography.labelBold),
+                  const SizedBox(height: AppSpacing.xs),
+                  Wrap(
+                    spacing: AppSpacing.xs,
+                    children: PrintTechnique.values.map((PrintTechnique p) {
+                      return ChoiceChip(
+                        label: Text(p.label),
+                        selected: _printTechnique == p,
+                        onSelected: (bool selected) => setState(
+                          () => _printTechnique = selected ? p : null,
                         ),
                       );
                     }).toList(),

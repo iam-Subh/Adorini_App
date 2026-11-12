@@ -47,6 +47,8 @@ export const productDetailSchema = z.object({
   compareAtPricePaise: z.number().int().nullable(),
   fabricType: z.enum(FabricType),
   printTechnique: z.enum(PrintTechnique).nullable(),
+  isFreeSize: z.boolean(),
+  pieces: z.number().int().nullable(),
   category: z.object({ slug: z.string(), name: z.string() }),
   /** Null since brands left the storefront. */
   brand: z.object({ slug: z.string(), name: z.string() }).nullable(),

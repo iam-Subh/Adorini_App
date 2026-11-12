@@ -101,7 +101,7 @@ class _SizeEnquirySheetState extends ConsumerState<SizeEnquirySheet> {
                 Text('Need a different size?', style: AppTypography.titleMd),
                 const SizedBox(height: AppSpacing.xs),
                 Text(
-                  'We stock 40–48. Tell us what you need and we’ll see what we can do.',
+                  'We stock 40–46 (32–36 for blouses). Tell us what you need and we’ll see what we can do.',
                   style: AppTypography.bodyMd,
                 ),
                 const SizedBox(height: AppSpacing.md),

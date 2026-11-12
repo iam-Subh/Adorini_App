@@ -117,4 +117,28 @@ class CatalogApi {
         .map((dynamic e) => Brand.fromJson(e as Map<String, dynamic>))
         .toList();
   }
+
+  Future<List<ProductSummary>> listWishlist() async {
+    final Response<List<dynamic>> response =
+        await _dio.get<List<dynamic>>(ApiConstants.wishlist);
+    return (response.data ?? <dynamic>[])
+        .map((dynamic e) => ProductSummary.fromJson(e as Map<String, dynamic>))
+        .toList();
+  }
+
+  Future<List<ProductSummary>> addToWishlist(String productId) async {
+    final Response<List<dynamic>> response =
+        await _dio.post<List<dynamic>>(ApiConstants.wishlistItem(productId));
+    return (response.data ?? <dynamic>[])
+        .map((dynamic e) => ProductSummary.fromJson(e as Map<String, dynamic>))
+        .toList();
+  }
+
+  Future<List<ProductSummary>> removeFromWishlist(String productId) async {
+    final Response<List<dynamic>> response =
+        await _dio.delete<List<dynamic>>(ApiConstants.wishlistItem(productId));
+    return (response.data ?? <dynamic>[])
+        .map((dynamic e) => ProductSummary.fromJson(e as Map<String, dynamic>))
+        .toList();
+  }
 }

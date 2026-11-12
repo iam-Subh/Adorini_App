@@ -8,10 +8,18 @@ import '../../../../core/utils/money.dart';
 import '../../data/product_model.dart';
 
 class ProductCard extends StatelessWidget {
-  const ProductCard({required this.product, required this.onTap, super.key});
+  const ProductCard({
+    required this.product,
+    required this.onTap,
+    this.isWishlisted,
+    this.onWishlistToggle,
+    super.key,
+  });
 
   final ProductSummary product;
   final VoidCallback onTap;
+  final bool? isWishlisted;
+  final VoidCallback? onWishlistToggle;
 
   /// Aspect of the image at the top of the card.
   static const double imageAspectRatio = 3 / 4;
@@ -81,23 +89,53 @@ class ProductCard extends StatelessWidget {
           children: <Widget>[
             AspectRatio(
               aspectRatio: imageAspectRatio,
-              child: product.thumbnailUrl == null
-                  ? const _ImageFallback()
-                  : CachedNetworkImage(
-                      imageUrl: product.thumbnailUrl!,
-                      fit: BoxFit.cover,
-                      // A flat fill while loading, a marked fallback when
-                      // there is nothing to load. The two states look
-                      // different on purpose: one resolves in a moment, the
-                      // other never will, and rendering both as the same
-                      // blank rectangle makes a catalog with no imagery look
-                      // like a catalog that is permanently loading.
-                      placeholder: (BuildContext context, String url) =>
-                          const ColoredBox(color: AppColors.surfaceContainer),
-                      errorWidget: (BuildContext context, String url,
-                              Object error) =>
-                          const _ImageFallback(),
+              child: Stack(
+                fit: StackFit.expand,
+                children: <Widget>[
+                  product.thumbnailUrl == null
+                      ? const _ImageFallback()
+                      : CachedNetworkImage(
+                          imageUrl: product.thumbnailUrl!,
+                          fit: BoxFit.cover,
+                          // A flat fill while loading, a marked fallback when
+                          // there is nothing to load. The two states look
+                          // different on purpose: one resolves in a moment, the
+                          // other never will, and rendering both as the same
+                          // blank rectangle makes a catalog with no imagery look
+                          // like a catalog that is permanently loading.
+                          placeholder: (BuildContext context, String url) =>
+                              const ColoredBox(color: AppColors.surfaceContainer),
+                          errorWidget: (BuildContext context, String url,
+                                  Object error) =>
+                              const _ImageFallback(),
+                        ),
+                  if (onWishlistToggle != null)
+                    Positioned(
+                      top: 6,
+                      right: 6,
+                      child: Material(
+                        color: AppColors.surface.withValues(alpha: 0.85),
+                        shape: const CircleBorder(),
+                        child: InkWell(
+                          customBorder: const CircleBorder(),
+                          onTap: onWishlistToggle,
+                          child: Padding(
+                            padding: const EdgeInsets.all(6),
+                            child: Icon(
+                              (isWishlisted ?? false)
+                                  ? Icons.favorite
+                                  : Icons.favorite_border,
+                              size: 18,
+                              color: (isWishlisted ?? false)
+                                  ? AppColors.primary
+                                  : AppColors.onSurfaceVariant,
+                            ),
+                          ),
+                        ),
+                      ),
                     ),
+                ],
+              ),
             ),
             // Expanded, so the caption takes exactly the height the cell has
             // left rather than demanding its own. `extentFor` above sizes the
